@@ -24,5 +24,19 @@ namespace GiteMontagne
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            CustomerWindow cw = new CustomerWindow();
+            Customer SelectedCustomer = cw.ShowDialogWithResult();
+            if (SelectedCustomer != null)
+            {
+                txtbNameCustomer.Text = SelectedCustomer.Name;
+                txtbFirstNameCustomer.Text = SelectedCustomer.FirstName;
+                txtbPhoneCustomer.Text = SelectedCustomer.Phone;
+                txtbEmailCustomer.Text = SelectedCustomer.Email;
+            }
+
+        }
     }
 }
