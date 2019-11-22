@@ -75,8 +75,15 @@
       <DependentUpon>CustomerWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="DAL.cs" />
+    <Compile Include="EditCustomerWindow.xaml.cs">
+      <DependentUpon>EditCustomerWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Reservation.cs" />
     <Page Include="CustomerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EditCustomerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -88,6 +95,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ReservationsWindow.xaml.cs">
+      <DependentUpon>ReservationsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Room.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="Bed.cs" />
@@ -95,6 +105,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ReservationsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

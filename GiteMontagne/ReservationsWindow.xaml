@@ -1,0 +1,32 @@
+﻿<Window x:Class="GiteMontagne.ReservationsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GiteMontagne"
+        mc:Ignorable="d"
+        Title="Liste des réservations" Height="450" Width="800" Loaded="Window_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ListView Name="listViewReservations" Margin="10" >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="N°" Width="125" DisplayMemberBinding="{Binding Id }" />
+                    <GridViewColumn Header="Nom client" Width="125" DisplayMemberBinding="{Binding CustomerName}" />
+                    <GridViewColumn Header="Date arrivée" Width="125" DisplayMemberBinding="{Binding ArrivalDate, StringFormat=dd/MM/yyyy }" />
+                    <GridViewColumn Header="Date départ" Width="125" DisplayMemberBinding="{Binding DepartureDate, StringFormat=dd/MM/yyyy }" />
+                    <GridViewColumn Header="Commentaire" Width="125" DisplayMemberBinding="{Binding Comment}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
+            <Button Name="btnEditer" Content="Editer" Margin="10" Height="30" Width="100"/>
+            <Button Name="btnSupprimer" Content="Supprimer" Margin="10" Height="30" Width="100" Click="BtnSupprimer_Click"/>
+            <Button Name="btnClose" Content="Retour" Margin="10" Height="30" Width="100" Click="BtnClose_Click"/>
+        </StackPanel>
+        
+    </Grid>
+</Window>

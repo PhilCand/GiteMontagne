@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GiteMontagne"
         mc:Ignorable="d"
-        Title="Selection client" Height="450" Width="800" Loaded="Window_Loaded">
+        Title="Selection client" Height="468" Width="800" Loaded="Window_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="430" />
@@ -48,13 +48,13 @@
                 <TextBox Name="txtbFirstNameCustomer" Grid.Column="1" Margin="10 0 10 0" Grid.Row="2" Height="20"/>
                 <TextBox Name="txtbPhoneCustomer" Grid.Column="1" Margin="10 0 10 0" Grid.Row="3" Height="20"/>
                 <TextBox Name="txtbEmailCustomer" Grid.Column="1" Margin="10 0 10 0" Grid.Row="4" Height="20"/>
-                <Button Grid.Row="5" Grid.Column="1" Content=" Créer Client " HorizontalAlignment="Right" Margin="10" Click="Button_Click"/>
-            </Grid>   
+                <Button Name="btnCreateCustomer"  Grid.Row="5" Grid.Column="1" Content=" Créer Client " HorizontalAlignment="Right" Margin="10" Height="30" Width="100" Click="BtnCreateCustomer_Click" />
+            </Grid>
 
-            <Button Content="Editer client" Name="btnEditCustomer" Margin="10 10 10 0"/>
-            <Button Content="Supprimer client" Name="btnDeleteCustomer" Margin="10 10 10 0"/>
-            <Button Content="Selectionner" Name="btnSelectCustomer" Margin="10 30 10 0" HorizontalAlignment="Right" Width="100" Click="BtnSelectCustomer_Click"/>
-            <Button Content="Fermer" Name="btnClose" HorizontalAlignment="Right" Width="100" Margin="10 10 10 0" Click="BtnClose_Click"/>
+            <Button Content="Editer client" Name="btnEditCustomer" Margin="10 0 10 0" Height="30" Width="100"  HorizontalAlignment="Left" Click="BtnEditCustomer_Click"/>
+            <Button Content="Supprimer client" Name="btnDeleteCustomer" Margin="10 10 10 0" Height="30" Width="100" HorizontalAlignment="Left" Click="BtnDeleteCustomer_Click"/>
+            <Button Content="Selectionner" Name="btnSelectCustomer" Margin="10 10 10 0" HorizontalAlignment="Left" Width="100" Click="BtnSelectCustomer_Click" Height="30" />
+            <Button Content="Fermer" Name="btnClose" HorizontalAlignment="Right" Width="100" Margin="10 10 10 0" Click="BtnClose_Click" Height="30"/>
 
 
 

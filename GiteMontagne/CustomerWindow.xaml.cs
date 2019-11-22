@@ -32,25 +32,7 @@ namespace GiteMontagne
         {
             listViewCustomers.ItemsSource = DAL.GetCustomers();
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Customer newCustomer = new Customer();
-            newCustomer.Name = txtbNameCustomer.Text;
-            newCustomer.FirstName = txtbFirstNameCustomer.Text;
-            newCustomer.Phone = txtbPhoneCustomer.Text;
-            newCustomer.Email = txtbEmailCustomer.Text;
-
-            DAL.CreateCustomer(newCustomer);
-            listViewCustomers.ItemsSource = DAL.GetCustomers();
-
-            txtbNameCustomer.Clear();
-            txtbFirstNameCustomer.Clear();
-            txtbPhoneCustomer.Clear();
-            txtbEmailCustomer.Clear();
-
-        }
-
+               
         private void BtnSelectCustomer_Click(object sender, RoutedEventArgs e)
         {
             SelectedCustomer = (listViewCustomers.SelectedItem as Customer);
@@ -67,6 +49,44 @@ namespace GiteMontagne
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void BtnDeleteCustomer_Click(object sender, RoutedEventArgs e)
+        {
+            if (listViewCustomers.SelectedIndex >= 0)
+            {            
+            int delCustomerID = (listViewCustomers.SelectedItem as Customer).Id;
+            DAL.DeleteCustomer(delCustomerID);
+            listViewCustomers.ItemsSource = DAL.GetCustomers();
+            }
+        }
+
+        private void BtnEditCustomer_Click(object sender, RoutedEventArgs e)
+        {
+            if (listViewCustomers.SelectedIndex >= 0)
+            {
+                EditCustomerWindow ecw = new EditCustomerWindow(listViewCustomers.SelectedItem as Customer);
+                ecw.ShowDialog();
+                listViewCustomers.ItemsSource = DAL.GetCustomers();
+            }
+        }
+
+        private void BtnCreateCustomer_Click(object sender, RoutedEventArgs e)
+        {
+            Customer newCustomer = new Customer();
+            newCustomer.Name = txtbNameCustomer.Text;
+            newCustomer.FirstName = txtbFirstNameCustomer.Text;
+            newCustomer.Phone = txtbPhoneCustomer.Text;
+            newCustomer.Email = txtbEmailCustomer.Text;
+
+            DAL.CreateCustomer(newCustomer);
+            listViewCustomers.ItemsSource = DAL.GetCustomers();
+
+            txtbNameCustomer.Clear();
+            txtbFirstNameCustomer.Clear();
+            txtbPhoneCustomer.Clear();
+            txtbEmailCustomer.Clear();
+
         }
     }
 }
