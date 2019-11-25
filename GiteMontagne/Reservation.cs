@@ -11,6 +11,7 @@ namespace GiteMontagne
         private int _id;
         private Customer _customer;
         private string _customerName;
+        private int _customerID;
         private DateTime _arrivalDate;
         private DateTime _departureDate;
         private string _comment;
@@ -22,6 +23,7 @@ namespace GiteMontagne
         public DateTime DepartureDate { get => _departureDate; set => _departureDate = value; }
         public string Comment { get => _comment; set => _comment = value; }
         public string CustomerName { get => _customerName; set => _customerName = value; }
+        public int CustomerID { get => _customerID; set => _customerID = value; }
         internal List<Bed> RevervedBeds { get => _revervedBeds; set => _revervedBeds = value; }
     }
 }

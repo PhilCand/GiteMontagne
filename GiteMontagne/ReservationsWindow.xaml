@@ -23,7 +23,7 @@
             </ListView.View>
         </ListView>
         <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
-            <Button Name="btnEditer" Content="Editer" Margin="10" Height="30" Width="100"/>
+            <Button Name="btnEditer" Content="Editer" Margin="10" Height="30" Width="100" Click="BtnEditer_Click"/>
             <Button Name="btnSupprimer" Content="Supprimer" Margin="10" Height="30" Width="100" Click="BtnSupprimer_Click"/>
             <Button Name="btnClose" Content="Retour" Margin="10" Height="30" Width="100" Click="BtnClose_Click"/>
         </StackPanel>

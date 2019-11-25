@@ -74,19 +74,18 @@ namespace GiteMontagne
 
             SqlCommand command = new SqlCommand(updateQuery, connection);
             command.ExecuteNonQuery();
-
             command.Dispose();
         }
 
-        #endregion
-
-        #region BED
-
-        public static List<Bed> GetBeds()
+        public static List<Customer> SearchCustomers(string search)
         {
-            List<Bed> beds = new List<Bed>();
+            List<Customer> customers = new List<Customer>();
 
-            string sqlQuery = "SELECT r.name as roomName,r.id as roomID, b.id as numBed, b.price, b.status FROM Beds b JOIN Rooms r on b.room_id = r.id WHERE b.status = 1;";
+            string sqlQuery = $"SELECT * FROM Customers " +
+                              $"WHERE name LIKE '%{search}%' " +
+                              $"OR (firstName LIKE '%{search}%') " +
+                              $"OR (email LIKE '%{search}%') " +
+                              $"OR (phone LIKE '%{search}%');";
 
             SqlCommand command = new SqlCommand(sqlQuery, connection);
             SqlDataReader dataReader = command.ExecuteReader();
@@ -95,22 +94,54 @@ namespace GiteMontagne
             {
                 while (dataReader.Read())
                 {
-                    Bed newBed = new Bed();
-                    newBed.Id = Convert.ToInt32(dataReader["numBed"]);
-                    newBed.RoomId = Convert.ToInt32(dataReader["roomID"]);
-                    newBed.RoomName = dataReader["roomName"].ToString();
-                    newBed.Price = Convert.ToDouble(dataReader["price"]);
-                    newBed.Status = (bool)(dataReader["status"]);
-                    beds.Add(newBed);
+                    Customer newCustomer = new Customer();
+                    newCustomer.Name = dataReader["name"].ToString();
+                    newCustomer.FirstName = dataReader["firstName"].ToString();
+                    newCustomer.Email = dataReader["email"].ToString();
+                    newCustomer.Phone = dataReader["phone"].ToString();
+                    newCustomer.Id = Convert.ToInt32(dataReader["id"]);
+                    customers.Add(newCustomer);
                 }
             }
             dataReader.Close();
             command.Dispose();
 
-            return beds;
+            return customers;
         }
 
-        public static List<Bed> GetAVaibleBeds(DateTime bookingFromDate, DateTime bookingToDate)
+        #endregion
+
+        #region BED
+
+        //public static List<Bed> GetBeds()
+        //{
+        //    List<Bed> beds = new List<Bed>();
+
+        //    string sqlQuery = "SELECT r.name as roomName,r.id as roomID, b.id as numBed, b.price, b.status FROM Beds b JOIN Rooms r on b.room_id = r.id WHERE b.status = 1;";
+
+        //    SqlCommand command = new SqlCommand(sqlQuery, connection);
+        //    SqlDataReader dataReader = command.ExecuteReader();
+
+        //    if (dataReader.HasRows)
+        //    {
+        //        while (dataReader.Read())
+        //        {
+        //            Bed newBed = new Bed();
+        //            newBed.Id = Convert.ToInt32(dataReader["numBed"]);
+        //            newBed.RoomId = Convert.ToInt32(dataReader["roomID"]);
+        //            newBed.RoomName = dataReader["roomName"].ToString();
+        //            newBed.Price = Convert.ToDouble(dataReader["price"]);
+        //            newBed.Status = (bool)(dataReader["status"]);
+        //            beds.Add(newBed);
+        //        }
+        //    }
+        //    dataReader.Close();
+        //    command.Dispose();
+
+        //    return beds;
+        //}
+
+        public static List<Bed> GetAvaibleBeds(DateTime bookingFromDate, DateTime bookingToDate)
         {
             List<Bed> beds = new List<Bed>();
 
@@ -119,10 +150,11 @@ namespace GiteMontagne
 
             string sqlQuery = "SELECT ro.name as roomName,ro.id as roomID, b.id as numBed, b.price, b.status " +
                               "from Beds b JOIN Rooms ro on ro.id = b.room_id " +
-                              "WHERE b.id NOT IN(SELECT rb.bed_id from reservations r join Reservation_Beds rb on r.id = rb.reservation_id " +
+                              "WHERE b.id NOT IN((SELECT rb.bed_id from reservations r join Reservation_Beds rb on r.id = rb.reservation_id " +
                               $"WHERE(arrivalDate < '{bookingFromDateStr}' AND departureDate > '{bookingFromDateStr}') " +
                               $"OR(arrivalDate < '{bookingToDateStr}' AND departureDate >= '{bookingToDateStr}')" +
-                              $"OR('{bookingFromDateStr}' < arrivalDate AND '{bookingToDateStr}' > arrivalDate));";
+                              $"OR('{bookingFromDateStr}' < arrivalDate AND '{bookingToDateStr}' > arrivalDate)))" +
+                              $"AND b.status = 1;";
 
             SqlCommand command = new SqlCommand(sqlQuery, connection);
             SqlDataReader dataReader = command.ExecuteReader();
@@ -146,8 +178,44 @@ namespace GiteMontagne
             return beds;
         }
 
+        public static List<Bed> GetAvaibleBeds(DateTime bookingFromDate, DateTime bookingToDate, int excludedReservationID)
+        {
+            List<Bed> beds = new List<Bed>();
 
+            string bookingFromDateStr = bookingFromDate.ToString("MM/dd/yyyy");
+            string bookingToDateStr = bookingToDate.ToString("MM/dd/yyyy");
 
+            string sqlQuery = "SELECT ro.name as roomName,ro.id as roomID, b.id as numBed, b.price, b.status " +
+                              "from Beds b JOIN Rooms ro on ro.id = b.room_id " +
+                              "WHERE b.status = 1" +
+                              "AND b.id NOT IN(SELECT rb.bed_id from reservations r join Reservation_Beds rb on r.id = rb.reservation_id " +
+                              $"WHERE((arrivalDate < '{bookingFromDateStr}' AND departureDate > '{bookingFromDateStr}') " +
+                              $"OR(arrivalDate < '{bookingToDateStr}' AND departureDate >= '{bookingToDateStr}') " +
+                              $"OR('{bookingFromDateStr}' < arrivalDate AND '{bookingToDateStr}' > arrivalDate)) " +
+                              $"AND(r.id <> {excludedReservationID}));";
+
+            SqlCommand command = new SqlCommand(sqlQuery, connection);
+            SqlDataReader dataReader = command.ExecuteReader();
+
+            if (dataReader.HasRows)
+            {
+                while (dataReader.Read())
+                {
+                    Bed newBed = new Bed();
+                    newBed.Id = Convert.ToInt32(dataReader["numBed"]);
+                    newBed.RoomId = Convert.ToInt32(dataReader["roomID"]);
+                    newBed.RoomName = dataReader["roomName"].ToString();
+                    newBed.Price = Convert.ToDouble(dataReader["price"]);
+                    newBed.Status = (bool)(dataReader["status"]);
+                    beds.Add(newBed);
+                }
+            }
+            dataReader.Close();
+            command.Dispose();
+
+            return beds;
+        }
+        
         public static void MakeBedUnavaible(Bed selectedBed)
         {
             string updateQuery = $"Update Beds SET status = '0' Where id = '{selectedBed.Id}';";
@@ -202,6 +270,60 @@ namespace GiteMontagne
             return reservations;
         }
 
+        public static Reservation GetUpdatedReservation(int editedReservationID)
+        {
+
+            string sqlQuery = ($"SELECT r.id as reservation_id, r.customer_id, r.arrivalDate, r.departureDate, r.comment, " +
+                               $"rb.bed_id, c.name, b.room_id, b.price, ro.name as roomName, c.email, c.firstName, c.phone " +
+                               $"FROM Reservations r " +
+                               $"JOIN Reservation_Beds rb on r.id = rb.reservation_id " +
+                               $"JOIN Customers c on c.id = r.customer_id " +
+                               $"JOIN Beds b on b.id = rb.bed_id " +
+                               $"JOIN Rooms ro on ro.id = b.room_id " +
+                               $"WHERE r.id = {editedReservationID};");
+
+            SqlCommand command = new SqlCommand(sqlQuery, connection);
+            SqlDataReader dataReader = command.ExecuteReader();
+
+            Reservation editedReservation = new Reservation();
+            Customer newCustomer = new Customer();
+
+            if (dataReader.HasRows)
+            {
+                while (dataReader.Read())
+                {
+                    if (editedReservation.Customer == null)
+                    {
+                        editedReservation.Id = Convert.ToInt32(dataReader["reservation_id"]);
+                        editedReservation.CustomerName = dataReader["name"].ToString();
+                        editedReservation.CustomerID = Convert.ToInt32(dataReader["customer_id"]);
+                        editedReservation.ArrivalDate = Convert.ToDateTime(dataReader["arrivalDate"]);
+                        editedReservation.DepartureDate = Convert.ToDateTime(dataReader["departureDate"]);
+                        editedReservation.Comment = dataReader["comment"].ToString();
+                        newCustomer.Id = Convert.ToInt32(dataReader["customer_id"]);
+                        newCustomer.Name = dataReader["name"].ToString();
+                        newCustomer.Email = dataReader["email"].ToString();
+                        newCustomer.Phone = dataReader["phone"].ToString();
+                        newCustomer.FirstName = dataReader["firstName"].ToString();
+                        editedReservation.Customer = newCustomer;
+                    }
+                    Bed newBed = new Bed();
+                    newBed.Id = Convert.ToInt32(dataReader["bed_id"]);
+                    newBed.RoomId = Convert.ToInt32(dataReader["room_id"]);
+                    newBed.RoomName = dataReader["roomName"].ToString();
+                    newBed.Status = false;
+                    newBed.Price = Convert.ToDouble(dataReader["price"]);
+
+                    editedReservation.RevervedBeds.Add(newBed);              
+
+                }
+            }
+            dataReader.Close();
+            command.Dispose();
+
+            return editedReservation;
+        }
+
         public static void CreateReservation(Reservation newReservation)
         {
             string sqlQuery = ($"INSERT INTO Reservations (customer_id, arrivalDate, departureDate, comment) VALUES('{newReservation.Customer.Id}', '{newReservation.ArrivalDate.ToString("MM/dd/yyyy")}', '{newReservation.DepartureDate.ToString("MM/dd/yyyy")}', '{newReservation.Comment}');");
@@ -211,6 +333,21 @@ namespace GiteMontagne
             {
                 sqlQuery += ($"INSERT INTO Reservation_beds (reservation_id, bed_id) VALUES((SELECT MAX(id) from Reservations), '{bed.Id}');");
 
+            }
+            SqlCommand command = new SqlCommand(sqlQuery, connection);
+            command.ExecuteNonQuery();
+            command.Dispose();
+        }
+
+        public static void UpdateReservation(Reservation EditedReservation)
+        {
+            string sqlQuery = $"UPDATE Reservations SET customer_id='{EditedReservation.Customer.Id}', arrivalDate='{EditedReservation.ArrivalDate.ToString("MM/dd/yyyy")}', departureDate='{EditedReservation.DepartureDate.ToString("MM/dd/yyyy")}', comment='{EditedReservation.Comment}' WHERE id = '{EditedReservation.Id}' ;";
+
+            sqlQuery += $"DELETE from Reservation_beds where reservation_id = '{EditedReservation.Id}';";
+
+            foreach (Bed bed in EditedReservation.RevervedBeds)
+            {
+                sqlQuery += $"INSERT INTO Reservation_beds (reservation_id, bed_id) VALUES('{EditedReservation.Id}', '{bed.Id}');";
             }
             SqlCommand command = new SqlCommand(sqlQuery, connection);
             command.ExecuteNonQuery();

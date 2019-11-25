@@ -30,7 +30,8 @@ namespace GiteMontagne
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            listViewCustomers.ItemsSource = DAL.GetCustomers();
+            //listViewCustomers.ItemsSource = DAL.GetCustomers();
+            listViewCustomers.ItemsSource = DAL.SearchCustomers(txtSearchCustomer.Text);
         }
                
         private void BtnSelectCustomer_Click(object sender, RoutedEventArgs e)
@@ -57,7 +58,8 @@ namespace GiteMontagne
             {            
             int delCustomerID = (listViewCustomers.SelectedItem as Customer).Id;
             DAL.DeleteCustomer(delCustomerID);
-            listViewCustomers.ItemsSource = DAL.GetCustomers();
+                //listViewCustomers.ItemsSource = DAL.GetCustomers();
+                listViewCustomers.ItemsSource = DAL.SearchCustomers(txtSearchCustomer.Text);
             }
         }
 
@@ -67,7 +69,8 @@ namespace GiteMontagne
             {
                 EditCustomerWindow ecw = new EditCustomerWindow(listViewCustomers.SelectedItem as Customer);
                 ecw.ShowDialog();
-                listViewCustomers.ItemsSource = DAL.GetCustomers();
+                //listViewCustomers.ItemsSource = DAL.GetCustomers();
+                listViewCustomers.ItemsSource = DAL.SearchCustomers(txtSearchCustomer.Text);
             }
         }
 
@@ -80,13 +83,25 @@ namespace GiteMontagne
             newCustomer.Email = txtbEmailCustomer.Text;
 
             DAL.CreateCustomer(newCustomer);
-            listViewCustomers.ItemsSource = DAL.GetCustomers();
+            //listViewCustomers.ItemsSource = DAL.GetCustomers();
+            listViewCustomers.ItemsSource = DAL.SearchCustomers(txtSearchCustomer.Text);
 
             txtbNameCustomer.Clear();
             txtbFirstNameCustomer.Clear();
             txtbPhoneCustomer.Clear();
             txtbEmailCustomer.Clear();
 
+        }
+
+        private void TxtSearchCustomer_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            listViewCustomers.ItemsSource = DAL.SearchCustomers(txtSearchCustomer.Text);
+        }
+
+        private void ListViewCustomers_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            SelectedCustomer = (listViewCustomers.SelectedItem as Customer);
+            this.Close();
         }
     }
 }

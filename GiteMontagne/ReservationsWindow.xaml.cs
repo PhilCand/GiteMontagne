@@ -42,5 +42,12 @@ namespace GiteMontagne
         {
             this.Close();
         }
+
+        private void BtnEditer_Click(object sender, RoutedEventArgs e)
+        {
+            EditReservationWindow erw = new EditReservationWindow((listViewReservations.SelectedItem as Reservation).Id);
+            erw.ShowDialog();
+            listViewReservations.ItemsSource = DAL.GetReservations();
+        }
     }
 }

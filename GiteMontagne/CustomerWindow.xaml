@@ -11,7 +11,7 @@
             <ColumnDefinition Width="430" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <ListView Name="listViewCustomers" Margin="10">
+        <ListView Name="listViewCustomers" Margin="10" MouseDoubleClick="ListViewCustomers_MouseDoubleClick">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Num" Width="40" DisplayMemberBinding="{Binding Id}" />
@@ -24,7 +24,7 @@
         </ListView>
         <StackPanel Grid.Column="1">
             <Label Content="Recherche" Margin="10 10 0 10"/>
-            <TextBox Name="txtSearchCustomer" Margin="10 0 10 0"/>         
+            <TextBox Name="txtSearchCustomer" Margin="10 0 10 0" TextChanged="TxtSearchCustomer_TextChanged"/>         
             <Label Content="Creer Client"  Margin="10"/>            
             <Grid >
                 <Grid.ColumnDefinitions>
@@ -51,9 +51,9 @@
                 <Button Name="btnCreateCustomer"  Grid.Row="5" Grid.Column="1" Content=" Créer Client " HorizontalAlignment="Right" Margin="10" Height="30" Width="100" Click="BtnCreateCustomer_Click" />
             </Grid>
 
-            <Button Content="Editer client" Name="btnEditCustomer" Margin="10 0 10 0" Height="30" Width="100"  HorizontalAlignment="Left" Click="BtnEditCustomer_Click"/>
+            <Button Content="Selectionner" Name="btnSelectCustomer" Margin="10 0 10 0" HorizontalAlignment="Left" Width="100" Click="BtnSelectCustomer_Click" Height="30" />
+            <Button Content="Editer client" Name="btnEditCustomer" Margin="10 10 10 0" Height="30" Width="100"  HorizontalAlignment="Left" Click="BtnEditCustomer_Click"/>
             <Button Content="Supprimer client" Name="btnDeleteCustomer" Margin="10 10 10 0" Height="30" Width="100" HorizontalAlignment="Left" Click="BtnDeleteCustomer_Click"/>
-            <Button Content="Selectionner" Name="btnSelectCustomer" Margin="10 10 10 0" HorizontalAlignment="Left" Width="100" Click="BtnSelectCustomer_Click" Height="30" />
             <Button Content="Fermer" Name="btnClose" HorizontalAlignment="Right" Width="100" Margin="10 10 10 0" Click="BtnClose_Click" Height="30"/>
 
 

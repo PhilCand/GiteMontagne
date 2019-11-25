@@ -78,12 +78,19 @@
     <Compile Include="EditCustomerWindow.xaml.cs">
       <DependentUpon>EditCustomerWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="EditReservationWindow.xaml.cs">
+      <DependentUpon>EditReservationWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Reservation.cs" />
     <Page Include="CustomerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="EditCustomerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EditReservationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
