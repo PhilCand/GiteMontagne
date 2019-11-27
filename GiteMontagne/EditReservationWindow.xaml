@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GiteMontagne"
         mc:Ignorable="d"
-        Title="Edition de Reservation" Height="805" Width="1106">
+        Title="Edition de Reservation" Height="865.39" Width="1106">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -15,34 +15,38 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Label Content="Client" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="10"/>
+        <Border BorderBrush="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}" BorderThickness="1" Margin="10" Grid.Column="1" >
 
-            <Label Content="Nom :" Grid.Row="1" Margin="10 0 10 0" VerticalAlignment="Center" />
-            <Label Content="Prenom :" Grid.Row="2" Margin="10 0 10 0" VerticalAlignment="Center" />
-            <Label Content="Tel :" Grid.Row="3" Margin="10 0 10 0" VerticalAlignment="Center" />
-            <Label Content="Mail :" Grid.Row="4" Margin="10 0 10 0" VerticalAlignment="Center" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Label Content="Client" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="10" FontSize="20" FontWeight="Bold" FontFamily="Roboto"/>
 
-            <TextBox Name="txtbNameCustomer" Grid.Column="1" Margin="10" Grid.Row="1" Height="25" IsReadOnly="True"/>
-            <TextBox Name="txtbFirstNameCustomer" Grid.Column="1" Margin="10" Grid.Row="2" Height="25" IsReadOnly="True"/>
-            <TextBox Name="txtbPhoneCustomer" Grid.Column="1" Margin="10" Grid.Row="3" Height="25" IsReadOnly="True"/>
-            <TextBox Name="txtbEmailCustomer" Grid.Column="1" Margin="10" Grid.Row="4" Height="25" IsReadOnly="True"/>
-            <Button Name="btnSelectCustomer" Grid.Row="5" Grid.Column="1" Content=" Selectionner Client " HorizontalAlignment="Right" Margin="10" Height="30" Click="BtnSelectCustomer_Click"/>
-        </Grid>
+                <Label Content="Nom :" Grid.Row="2" Margin="10,0,10,5" VerticalAlignment="Bottom" FontWeight="Bold" FontFamily="Roboto" FontSize="15" HorizontalAlignment="Right" />
+                <Label Content="Prenom :" Grid.Row="3" Margin="10,0,10,5" VerticalAlignment="Bottom" FontWeight="Bold" FontFamily="Roboto" FontSize="15" HorizontalAlignment="Right" />
+                <Label Content="Tel :" Grid.Row="4" Margin="10,0,10,5" VerticalAlignment="Bottom" FontWeight="Bold" FontFamily="Roboto" FontSize="15" HorizontalAlignment="Right" />
+                <Label Content="Mail :" Grid.Row="5" Margin="10,0,10,5" VerticalAlignment="Bottom" FontWeight="Bold" FontFamily="Roboto" FontSize="15" HorizontalAlignment="Right" />
+
+                <Button Name="btnSelectCustomer" Grid.Row="1" Grid.ColumnSpan="2" Content="Changer Client" Margin="10 10 10 10" Height="30" Width="200" Click="BtnSelectCustomer_Click" HorizontalAlignment="Center"/>
+                <TextBox Name="txtbNameCustomer" Grid.Column="1" Margin="10,10,10,5" Grid.Row="2" Height="30" IsReadOnly="True" FontFamily="Roboto" FontSize="15" VerticalAlignment="Bottom"/>
+                <TextBox Name="txtbFirstNameCustomer" Grid.Column="1" Margin="10,10,10,5" Grid.Row="3" Height="30" IsReadOnly="True" FontFamily="Roboto" FontSize="15" VerticalAlignment="Bottom"/>
+                <TextBox Name="txtbPhoneCustomer" Grid.Column="1" Margin="10,10,10,5" Grid.Row="4" Height="30" IsReadOnly="True" FontFamily="Roboto" FontSize="15" VerticalAlignment="Bottom"/>
+                <TextBox Name="txtbEmailCustomer" Grid.Column="1" Margin="10,10,10,5" Grid.Row="5" Height="30" IsReadOnly="True" FontFamily="Roboto" FontSize="15" VerticalAlignment="Bottom"/>
+            </Grid>
+        </Border>
 
         <Grid Grid.Row="1" Grid.ColumnSpan="2">
             <Grid.RowDefinitions>
@@ -54,64 +58,85 @@
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Label Content="Choix lit" HorizontalAlignment="Center" Margin="10" Grid.ColumnSpan="3"/>
-            <ListView Name="listViewAvaibleBeds" Grid.Row="1" Margin="10" MouseDoubleClick="ListViewAvaibleBeds_MouseDoubleClick" >
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="Chambre" Width="125" DisplayMemberBinding="{Binding RoomName}" />
-                        <GridViewColumn Header="N° lit" Width="125" DisplayMemberBinding="{Binding Id}" />
-                        <GridViewColumn Header="Prix" Width="125" DisplayMemberBinding="{Binding Price}" />
-                    </GridView>
-                </ListView.View>
-            </ListView>
+            <Label Content="Choix lit" HorizontalAlignment="Center" Margin="10" Grid.ColumnSpan="3" FontSize="20" FontWeight="Bold" FontFamily="Roboto"/>
+            <Label Content="Lits disponibles" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontWeight="Bold" FontSize="15" FontFamily="Roboto"/>
+            <Label Content="Lits selectionnés" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontWeight="Bold" FontSize="15" FontFamily="Roboto"/>
+
+
+            <Border BorderBrush="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}" BorderThickness="1" Grid.Row="1" Margin="10" >
+
+                <ListView Name="listViewAvaibleBeds" Grid.Row="1" Margin="10" MouseDoubleClick="ListViewAvaibleBeds_MouseDoubleClick" FontFamily="Roboto" FontSize="15" >
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Chambre" Width="125" DisplayMemberBinding="{Binding RoomName}" />
+                            <GridViewColumn Header="N° lit" Width="125" DisplayMemberBinding="{Binding Id}" />
+                            <GridViewColumn Header="Prix" Width="125" DisplayMemberBinding="{Binding Price}" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Border>
 
             <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center">
-                <Button Name="btnAddBed" Content="Ajouter lit ->" Height="30" Width="100" Margin="0 0 0 10" Click="BtnAddBed_Click" HorizontalAlignment="Right"/>
-                <Button Name="btnSuppBed" Content="&lt;- Retirer lit" Height="30" Click="BtnRemoveBed_Click" />
+                <Image Source="images/flecheDroite.png" Width="100"/>
+                <Button Name="btnAddBed" Content="Ajouter lit ->" Height="30" Width="150" Margin="0 0 0 20"  Click="BtnAddBed_Click" HorizontalAlignment="Right"/>
+                <Button Name="btnSuppBed" Content="&lt;- Retirer lit" Height="30" Width="150" Click="BtnRemoveBed_Click" />
+                <Image Source="images/flecheGauche.png" Width="100"/>
+
             </StackPanel>
 
-            <ListView Name="listViewSelectedBeds" Grid.Row="1" Grid.Column="3" Margin="10" MouseDoubleClick="ListViewSelectedBeds_MouseDoubleClick" >
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="Chambre" Width="125" DisplayMemberBinding="{Binding RoomName}" />
-                        <GridViewColumn Header="N° lit" Width="125" DisplayMemberBinding="{Binding Id}" />
-                        <GridViewColumn Header="Prix" Width="125" DisplayMemberBinding="{Binding Price}" />
-                    </GridView>
-                </ListView.View>
-            </ListView>
+            <Border BorderBrush="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}" BorderThickness="1" Grid.Row="1" Grid.Column="3" Margin="10" >
 
+                <ListView Name="listViewSelectedBeds" Grid.Row="1" Grid.Column="3" Margin="10" MouseDoubleClick="ListViewSelectedBeds_MouseDoubleClick" FontFamily="Roboto" FontSize="15" >
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Chambre" Width="125" DisplayMemberBinding="{Binding RoomName}" />
+                            <GridViewColumn Header="N° lit" Width="125" DisplayMemberBinding="{Binding Id}" />
+                            <GridViewColumn Header="Prix" Width="125" DisplayMemberBinding="{Binding Price}" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Border>
         </Grid>
 
 
+        <Border BorderBrush="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}" BorderThickness="1" Grid.Column="0" Margin="10" >
 
-        <Grid Grid.Column="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Label Content="Sejour" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="10" Height="30" />
-            <Label Content="Date d'arrivée :" Grid.Row="1" Margin="10" Height="30" />
-            <Label Content="Date de départ :" Grid.Row="2" Margin="10" Height="30"  />
-            <Label Content="Commentaire :" Grid.Row="3" Margin="10" Height="30" VerticalAlignment="Top"/>
+            <Grid Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Label Content="Sejour" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="10" FontSize="20" FontWeight="Bold" FontFamily="Roboto" />
+                <Label Content="Date d'arrivée :" Grid.Row="1" Margin="10,10,10,5" Height="30" FontWeight="Bold" FontFamily="Roboto" FontSize="15" VerticalAlignment="Bottom" HorizontalAlignment="Right" />
+                <Label Content="Date de départ :" Grid.Row="2" Margin="10,10,10,5" Height="30" FontWeight="Bold" FontFamily="Roboto" FontSize="15" VerticalAlignment="Bottom" HorizontalAlignment="Right"  />
+                <Label Content="Commentaire :" Grid.Row="3" Margin="10,10,10,5" Height="30" VerticalAlignment="Bottom" FontWeight="Bold" FontFamily="Roboto" FontSize="15" HorizontalAlignment="Right"/>
 
-            <DatePicker Name="dpArrivalDate" Grid.Column="1" Grid.Row="1" Margin="10" SelectedDateChanged="DpArrivalDate_SelectedDateChanged" IsEnabled="False" />
-            <DatePicker Name="dpDepartureDate" Grid.Column="1" Grid.Row="2" Margin="10" SelectedDateChanged="DpDepartureDate_SelectedDateChanged" IsEnabled="False" />
-            <TextBox Name="txtbComment" Grid.Column="1" Grid.Row="3" Margin="10" Height="100" TextWrapping="Wrap" AcceptsReturn="True"/>
-        </Grid>
+                <DatePicker Name="dpArrivalDate" Grid.Column="1" Grid.Row="1" Margin="10,10,10,5" SelectedDateChanged="DpArrivalDate_SelectedDateChanged" FontFamily="Roboto" FontSize="15" VerticalAlignment="Bottom" />
+                <DatePicker Name="dpDepartureDate" Grid.Column="1" Grid.Row="2" Margin="10,10,10,5" SelectedDateChanged="DpDepartureDate_SelectedDateChanged" FontFamily="Roboto" FontSize="15" VerticalAlignment="Bottom" CalendarOpened="DpDepartureDate_CalendarOpened" />
+                <TextBox Name="txtbComment" Grid.Column="1" Grid.Row="3" Margin="10,10,10,5" Height="100" TextWrapping="Wrap" AcceptsReturn="True" FontFamily="Roboto" FontSize="15" VerticalAlignment="Bottom"/>
+            </Grid>
+        </Border>
 
         <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Right">
-            <Button Content="Changer dates" Name="btnEditDates" Grid.Row="2" Margin="10" Height="30" Width="150" Click="BtnEditDates_Click"/>
-            <Button Content="Editer réservation" Name="btnEditResevation" Grid.Row="2" Margin="10" Height="30" Width="150" Click="BtnEditResevation_Click"/>
-            <Button Content="Fermer" Name="btnClose" Grid.Row="4"  Height="30" Width="150" Margin="10" Click="BtnClose_Click"/>
-
+            <Label Content="Nombre de nuits : " Margin="10,10,10,5" VerticalAlignment="Bottom" FontWeight="Bold" FontFamily="Roboto" FontSize="15" HorizontalAlignment="Right"/>
+            <TextBox Name="txtbNbNight" IsReadOnly="True" Width="50" Margin="10,10,10,5" VerticalAlignment="Center" FontWeight="Bold" FontFamily="Roboto" FontSize="15" />
+            <Label Content="Prix total : " Margin="10,10,10,5" VerticalAlignment="Bottom" FontWeight="Bold" FontFamily="Roboto" FontSize="15" HorizontalAlignment="Right"/>
+            <TextBox Name="txtbTotalPrice" IsReadOnly="True" Width="50" Margin="10,10,10,5" VerticalAlignment="Center" FontWeight="Bold" FontFamily="Roboto" FontSize="15" />
         </StackPanel>
 
+
+        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Right">
+            <!--<Button Content="Changer dates" Name="btnEditDates" Grid.Row="2" Margin="10" Height="30" Width="200" Click="BtnEditDates_Click"/>-->
+            <Button Content="Valider" Name="btnEditResevation" Grid.Row="2" Margin="10" Height="30" Width="200" Click="BtnEditResevation_Click" Background="{DynamicResource Green}" BorderBrush="{DynamicResource Green}"/>
+            <Button Content="Fermer" Name="btnClose" Grid.Row="4"  Height="30" Width="200" Margin="10" Click="BtnClose_Click" Background="{DynamicResource Red2}" BorderBrush="{DynamicResource Red2}"/>
+
+        </StackPanel>
 
     </Grid>
 </Window>

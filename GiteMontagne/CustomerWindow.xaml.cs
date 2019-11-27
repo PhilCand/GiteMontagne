@@ -36,9 +36,11 @@ namespace GiteMontagne
                
         private void BtnSelectCustomer_Click(object sender, RoutedEventArgs e)
         {
-            SelectedCustomer = (listViewCustomers.SelectedItem as Customer);
-            this.Close();
-
+            if (listViewCustomers.SelectedIndex >= 0)
+            {
+                SelectedCustomer = (listViewCustomers.SelectedItem as Customer);
+                this.Close();
+            }
         }
 
         public Customer ShowDialogWithResult()
@@ -53,29 +55,24 @@ namespace GiteMontagne
         }
 
         private void BtnDeleteCustomer_Click(object sender, RoutedEventArgs e)
-        {
-            if (listViewCustomers.SelectedIndex >= 0)
-            {            
+        { 
             int delCustomerID = (listViewCustomers.SelectedItem as Customer).Id;
             DAL.DeleteCustomer(delCustomerID);
                 //listViewCustomers.ItemsSource = DAL.GetCustomers();
                 listViewCustomers.ItemsSource = DAL.SearchCustomers(txtSearchCustomer.Text);
-            }
         }
 
         private void BtnEditCustomer_Click(object sender, RoutedEventArgs e)
         {
-            if (listViewCustomers.SelectedIndex >= 0)
-            {
                 EditCustomerWindow ecw = new EditCustomerWindow(listViewCustomers.SelectedItem as Customer);
                 ecw.ShowDialog();
                 //listViewCustomers.ItemsSource = DAL.GetCustomers();
-                listViewCustomers.ItemsSource = DAL.SearchCustomers(txtSearchCustomer.Text);
-            }
+                listViewCustomers.ItemsSource = DAL.SearchCustomers(txtSearchCustomer.Text);            
         }
 
         private void BtnCreateCustomer_Click(object sender, RoutedEventArgs e)
         {
+
             Customer newCustomer = new Customer();
             newCustomer.Name = txtbNameCustomer.Text;
             newCustomer.FirstName = txtbFirstNameCustomer.Text;
@@ -83,13 +80,16 @@ namespace GiteMontagne
             newCustomer.Email = txtbEmailCustomer.Text;
 
             DAL.CreateCustomer(newCustomer);
-            //listViewCustomers.ItemsSource = DAL.GetCustomers();
+
             listViewCustomers.ItemsSource = DAL.SearchCustomers(txtSearchCustomer.Text);
 
             txtbNameCustomer.Clear();
             txtbFirstNameCustomer.Clear();
             txtbPhoneCustomer.Clear();
             txtbEmailCustomer.Clear();
+
+            listViewCustomers.SelectedIndex = listViewCustomers.Items.Count - 1;
+            listViewCustomers.ScrollIntoView(listViewCustomers.SelectedItem);
 
         }
 
@@ -100,6 +100,8 @@ namespace GiteMontagne
 
         private void ListViewCustomers_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            if (listViewCustomers.SelectedIndex < 0) return;
+
             SelectedCustomer = (listViewCustomers.SelectedItem as Customer);
             this.Close();
         }

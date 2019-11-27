@@ -5,27 +5,38 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GiteMontagne"
         mc:Ignorable="d"
-        Title="Selection client" Height="468" Width="800" Loaded="Window_Loaded">
+        Title="Selection client" Height="529.5" Width="1064.5" Loaded="Window_Loaded">
+    <Window.Resources>
+        <SolidColorBrush x:Key="Red" Color="#FFB73A3A"/>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="430" />
+            <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <ListView Name="listViewCustomers" Margin="10" MouseDoubleClick="ListViewCustomers_MouseDoubleClick">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Num" Width="40" DisplayMemberBinding="{Binding Id}" />
-                    <GridViewColumn Header="Nom" Width="70" DisplayMemberBinding="{Binding Name}" />
-                    <GridViewColumn Header="Prenom" Width="70" DisplayMemberBinding="{Binding FirstName}" />
-                    <GridViewColumn Header="Tel" Width="70" DisplayMemberBinding="{Binding Phone}" />
-                    <GridViewColumn Header="Mail" Width="160" DisplayMemberBinding="{Binding Email}" />
+                    <GridViewColumn Header="N°" Width="50" DisplayMemberBinding="{Binding Id}" />
+                    <GridViewColumn Header="Nom" Width="80" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Header="Prenom" Width="80" DisplayMemberBinding="{Binding FirstName}" />
+                    <GridViewColumn Header="Tel" Width="90" DisplayMemberBinding="{Binding Phone}" />
+                    <GridViewColumn Header="Mail" Width="200" DisplayMemberBinding="{Binding Email}" />
                 </GridView>
             </ListView.View>
         </ListView>
         <StackPanel Grid.Column="1">
-            <Label Content="Recherche" Margin="10 10 0 10"/>
-            <TextBox Name="txtSearchCustomer" Margin="10 0 10 0" TextChanged="TxtSearchCustomer_TextChanged"/>         
-            <Label Content="Creer Client"  Margin="10"/>            
+            <Grid Margin="0 10 0 0" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Content="Recherche :" Margin="10,10,0,5" FontWeight="Bold" FontSize="15" FontFamily="Roboto" HorizontalAlignment="Right" Grid.Column="0"/>
+                <TextBox Name="txtSearchCustomer" Margin="20,0,20,5" TextChanged="TxtSearchCustomer_TextChanged" FontFamily="Roboto" FontSize="15" Grid.Column="1" VerticalAlignment="Bottom"/>
+
+            </Grid>
+
+            <Label Content="Creer Client"  Margin="10 30 10 10" FontWeight="Bold" FontSize="18" FontFamily="Roboto" HorizontalAlignment="Center"/>
             <Grid >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -39,27 +50,26 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <Label Content="Nom :" Grid.Row="1" Margin="10 10 10 0" />
-                <Label Content="Prenom :" Grid.Row="2" Margin="10 0 10 0" />
-                <Label Content="Tel :" Grid.Row="3" Margin="10 0 10 0" />
-                <Label Content="Mail :" Grid.Row="4" Margin="10 0 10 0" />
+                <Label Content="Nom :" Grid.Row="1" Margin="10,10,10,5" FontWeight="Bold" VerticalAlignment="Bottom" FontFamily="Roboto" FontSize="15" HorizontalAlignment="Right"/>
+                <Label Content="Prenom :" Grid.Row="2" Margin="10,0,10,5" FontWeight="Bold" VerticalAlignment="Bottom" FontFamily="Roboto" FontSize="15" HorizontalAlignment="Right" />
+                <Label Content="Tel :" Grid.Row="3" Margin="10,0,10,5" FontWeight="Bold" VerticalAlignment="Bottom" FontFamily="Roboto" FontSize="15" HorizontalAlignment="Right" />
+                <Label Content="Mail :" Grid.Row="4" Margin="10,0,10,5" FontWeight="Bold" VerticalAlignment="Bottom" FontFamily="Roboto" FontSize="15" HorizontalAlignment="Right" />
 
-                <TextBox Name="txtbNameCustomer" Grid.Column="1" Margin="10 10 10 0" Grid.Row="1" Height="20"/>
-                <TextBox Name="txtbFirstNameCustomer" Grid.Column="1" Margin="10 0 10 0" Grid.Row="2" Height="20"/>
-                <TextBox Name="txtbPhoneCustomer" Grid.Column="1" Margin="10 0 10 0" Grid.Row="3" Height="20"/>
-                <TextBox Name="txtbEmailCustomer" Grid.Column="1" Margin="10 0 10 0" Grid.Row="4" Height="20"/>
-                <Button Name="btnCreateCustomer"  Grid.Row="5" Grid.Column="1" Content=" Créer Client " HorizontalAlignment="Right" Margin="10" Height="30" Width="100" Click="BtnCreateCustomer_Click" />
+                <TextBox Name="txtbNameCustomer" Grid.Column="1" Margin="10,10,10,5" Grid.Row="1" Height="30" FontSize="15" FontFamily="Roboto"/>
+                <TextBox Name="txtbFirstNameCustomer" Grid.Column="1" Margin="10,0,10,5" Grid.Row="2" Height="30" FontSize="15" FontFamily="Roboto"/>
+                <TextBox Name="txtbPhoneCustomer" Grid.Column="1" Margin="10,0,10,5" Grid.Row="3" Height="30" FontSize="15" FontFamily="Roboto"/>
+                <TextBox Name="txtbEmailCustomer" Grid.Column="1" Margin="10,0,10,5" Grid.Row="4" Height="30" FontSize="15" FontFamily="Roboto"/>
+                <Button Name="btnCreateCustomer"  Grid.Row="5" Grid.Column="1" Content=" Créer Client " HorizontalAlignment="Right" Margin="10" Height="30" Width="150" Click="BtnCreateCustomer_Click" IsEnabled="{Binding ElementName=txtbNameCustomer, Path=Text.Length}" />
             </Grid>
 
-            <Button Content="Selectionner" Name="btnSelectCustomer" Margin="10 0 10 0" HorizontalAlignment="Left" Width="100" Click="BtnSelectCustomer_Click" Height="30" />
-            <Button Content="Editer client" Name="btnEditCustomer" Margin="10 10 10 0" Height="30" Width="100"  HorizontalAlignment="Left" Click="BtnEditCustomer_Click"/>
-            <Button Content="Supprimer client" Name="btnDeleteCustomer" Margin="10 10 10 0" Height="30" Width="100" HorizontalAlignment="Left" Click="BtnDeleteCustomer_Click"/>
-            <Button Content="Fermer" Name="btnClose" HorizontalAlignment="Right" Width="100" Margin="10 10 10 0" Click="BtnClose_Click" Height="30"/>
+            <Button Content="Editer client" Name="btnEditCustomer" Margin="10 10 10 0" Height="30" Width="150"  HorizontalAlignment="Left" Click="BtnEditCustomer_Click" Background="{DynamicResource purple}" IsEnabled="{Binding SelectedItems.Count, ElementName=listViewCustomers}"/>
+            <Button Content="Supprimer client" Name="btnDeleteCustomer" Margin="10 10 10 0" Height="30" Width="150" HorizontalAlignment="Left" Click="BtnDeleteCustomer_Click" IsEnabled="{Binding SelectedItems.Count, ElementName=listViewCustomers}"/>
 
-
-
-
+   
         </StackPanel>
-
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="1">
+            <Button Content="Valider" Name="btnSelectCustomer" Margin="10 30 10 10" HorizontalAlignment="Left" Width="150" Click="BtnSelectCustomer_Click" Height="30" Background="{DynamicResource Green}" BorderBrush="{DynamicResource Green}" IsEnabled="{Binding SelectedItems.Count, ElementName=listViewCustomers}"/>
+            <Button Content="Fermer" Name="btnClose" HorizontalAlignment="Right" Width="150" Margin="10 30 10 10" Click="BtnClose_Click" Height="30" VerticalAlignment="Bottom" Background="{DynamicResource Red}" BorderBrush="{DynamicResource Red2}"/>
+        </StackPanel>
     </Grid>
 </Window>

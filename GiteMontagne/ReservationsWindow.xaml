@@ -5,28 +5,41 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GiteMontagne"
         mc:Ignorable="d"
-        Title="Liste des réservations" Height="450" Width="800" Loaded="Window_Loaded">
+        Title="Liste des réservations" Height="656.59" Width="846.036" Loaded="Window_Loaded">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <ListView Name="listViewReservations" Margin="10" >
+
+        <StackPanel Orientation="Horizontal">
+            <Label Content="Recherche nom :" FontFamily="Roboto" FontSize="15" Margin="10" FontWeight="Bold"/>
+            <TextBox Name="txtbSearchName" Margin="10" Width="100" FontFamily="Roboto" FontSize="15" TextChanged="TxtbSearchName_TextChanged" />
+            <Label Content="Date début :" VerticalAlignment="Center" Margin="10" FontFamily="Roboto" FontSize="15" FontWeight="Bold"/>
+            <DatePicker Name="dpSearchStart" VerticalAlignment="Center" Margin="10" Width="100" FontFamily="Roboto" FontSize="15" SelectedDateChanged="DpSearchStart_SelectedDateChanged" />
+            <Label Content="Date fin :" VerticalAlignment="Center" Margin="10" FontFamily="Roboto" FontSize="15" FontWeight="Bold" />
+            <DatePicker Name="dpSearchEnd" VerticalAlignment="Center" Margin="10" Width="100" FontFamily="Roboto" FontSize="15" SelectedDateChanged="DpSearchEnd_SelectedDateChanged" />
+        </StackPanel>
+
+        <ListView Name="listViewReservations" Margin="10" FontFamily="Roboto" FontSize="14" IsSynchronizedWithCurrentItem="False" Grid.Row="1" MouseDoubleClick="ListViewReservations_MouseDoubleClick" GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="N°" Width="125" DisplayMemberBinding="{Binding Id }" />
+                    <GridViewColumn Header="N°" Width="50" DisplayMemberBinding="{Binding Id }" />
                     <GridViewColumn Header="Nom client" Width="125" DisplayMemberBinding="{Binding CustomerName}" />
                     <GridViewColumn Header="Date arrivée" Width="125" DisplayMemberBinding="{Binding ArrivalDate, StringFormat=dd/MM/yyyy }" />
                     <GridViewColumn Header="Date départ" Width="125" DisplayMemberBinding="{Binding DepartureDate, StringFormat=dd/MM/yyyy }" />
                     <GridViewColumn Header="Commentaire" Width="125" DisplayMemberBinding="{Binding Comment}" />
+                    <GridViewColumn Header="Nombre de lits" Width="125" DisplayMemberBinding="{Binding NumberOfBeds}" />
+                    <GridViewColumn Header="Prix total" Width="125" DisplayMemberBinding="{Binding Price}" />
                 </GridView>
             </ListView.View>
         </ListView>
-        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
-            <Button Name="btnEditer" Content="Editer" Margin="10" Height="30" Width="100" Click="BtnEditer_Click"/>
-            <Button Name="btnSupprimer" Content="Supprimer" Margin="10" Height="30" Width="100" Click="BtnSupprimer_Click"/>
-            <Button Name="btnClose" Content="Retour" Margin="10" Height="30" Width="100" Click="BtnClose_Click"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Right">
+            <Button Name="btnEditer" Content="Editer" Margin="10" Height="30" Width="150" Click="BtnEditer_Click"/>
+            <Button Name="btnSupprimer" Content="Supprimer" Margin="10" Height="30" Width="150" Click="BtnSupprimer_Click"/>
+            <Button Name="btnClose" Content="Retour" Margin="10" Height="30" Width="150" Click="BtnClose_Click"/>
         </StackPanel>
-        
+
     </Grid>
 </Window>
