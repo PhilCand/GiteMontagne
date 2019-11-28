@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GiteMontagne"
         mc:Ignorable="d"
-        Title="Liste des réservations" Height="656.59" Width="846.036" Loaded="Window_Loaded">
+        Title="Liste des réservations" Height="656.59" Width="1045.629" Loaded="Window_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -15,11 +15,13 @@
 
         <StackPanel Orientation="Horizontal">
             <Label Content="Recherche nom :" FontFamily="Roboto" FontSize="15" Margin="10" FontWeight="Bold"/>
-            <TextBox Name="txtbSearchName" Margin="10" Width="100" FontFamily="Roboto" FontSize="15" TextChanged="TxtbSearchName_TextChanged" />
+            <TextBox Name="txtbSearchName" Margin="10" Width="100" FontFamily="Roboto" FontSize="15" KeyUp="TxtbSearchName_KeyUp" />
             <Label Content="Date début :" VerticalAlignment="Center" Margin="10" FontFamily="Roboto" FontSize="15" FontWeight="Bold"/>
-            <DatePicker Name="dpSearchStart" VerticalAlignment="Center" Margin="10" Width="100" FontFamily="Roboto" FontSize="15" SelectedDateChanged="DpSearchStart_SelectedDateChanged" />
+            <DatePicker Name="dpSearchStart" VerticalAlignment="Center" Margin="10" Width="100" FontFamily="Roboto" FontSize="15" LostFocus="DpSearchStart_LostFocus" />
             <Label Content="Date fin :" VerticalAlignment="Center" Margin="10" FontFamily="Roboto" FontSize="15" FontWeight="Bold" />
-            <DatePicker Name="dpSearchEnd" VerticalAlignment="Center" Margin="10" Width="100" FontFamily="Roboto" FontSize="15" SelectedDateChanged="DpSearchEnd_SelectedDateChanged" />
+            <DatePicker Name="dpSearchEnd" VerticalAlignment="Center" Margin="10" Width="100" FontFamily="Roboto" FontSize="15" LostFocus="DpSearchEnd_LostFocus" CalendarOpened="DpSearchEnd_CalendarOpened" />
+            <Label Content="Date comprise :" VerticalAlignment="Center" Margin="10" FontFamily="Roboto" FontSize="15" FontWeight="Bold" />
+            <DatePicker Name="dpSearchIn" VerticalAlignment="Center" Margin="10" Width="100" FontFamily="Roboto" FontSize="15" LostFocus="DpSearchIn_LostFocus" />
         </StackPanel>
 
         <ListView Name="listViewReservations" Margin="10" FontFamily="Roboto" FontSize="14" IsSynchronizedWithCurrentItem="False" Grid.Row="1" MouseDoubleClick="ListViewReservations_MouseDoubleClick" GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler">

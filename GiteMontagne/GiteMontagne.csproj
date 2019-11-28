@@ -88,6 +88,7 @@
       <DependentUpon>EditReservationWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Reservation.cs" />
+    <Compile Include="VisibilityAnimation.cs" />
     <Page Include="CustomerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

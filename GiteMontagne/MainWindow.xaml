@@ -5,6 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GiteMontagne"
+        xmlns:common="clr-namespace:GiteMontagne"
         mc:Ignorable="d"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
@@ -125,7 +126,7 @@
                 <Label Content="Commentaire :" Grid.Row="3" Margin="10,10,10,5" Height="30" VerticalAlignment="Bottom" FontWeight="Bold" FontSize="15" HorizontalAlignment="Right"/>
 
                 <DatePicker Name="dpArrivalDate" Grid.Column="1" Grid.Row="1" Margin="10" SelectedDateChanged="DpArrivalDate_SelectedDateChanged" FontSize="15" VerticalAlignment="Bottom" />
-                <DatePicker Name="dpDepartureDate" Grid.Column="1" Grid.Row="2" Margin="10" SelectedDateChanged="DpDepartureDate_SelectedDateChanged" FontSize="15" VerticalAlignment="Bottom" />
+                <DatePicker Name="dpDepartureDate" Grid.Column="1" Grid.Row="2" Margin="10" SelectedDateChanged="DpDepartureDate_SelectedDateChanged" FontSize="15" VerticalAlignment="Bottom" LostFocus="DpDepartureDate_LostFocus" />
                 <TextBox Name="txtbComment" Grid.Column="1" Grid.Row="3" Margin="10" Height="100" TextWrapping="Wrap" AcceptsReturn="True" VerticalContentAlignment="Bottom" FontSize="15"/>
             </Grid>
         </Border>
@@ -136,7 +137,7 @@
             <Label Content="Prix total : " Margin="10,10,10,5" VerticalAlignment="Bottom" FontWeight="Bold" FontSize="15" HorizontalAlignment="Right"/>
             <TextBox Name="txtbTotalPrice" IsReadOnly="True" Width="50" Margin="10,10,10,5" VerticalAlignment="Bottom" FontWeight="Bold" FontSize="15" />
         </StackPanel>
-        <Label Name="labelConfirm"  Content="Réservation enregistrée" HorizontalContentAlignment="Center" Grid.Row="3" Grid.ColumnSpan="2" Foreground="White" FontSize="22" VerticalAlignment="Center" Margin="10,0" Background="{DynamicResource purple}" FontWeight="Bold" Visibility="Collapsed" />
+        <Label Name="labelConfirm" Height="50" VerticalContentAlignment="Center" Content="Réservation enregistrée" HorizontalContentAlignment="Center" Grid.Row="3" Grid.ColumnSpan="2" Foreground="White" FontSize="22" VerticalAlignment="Center" Margin="10,0" Background="{DynamicResource purple}" FontWeight="Bold" Visibility="Collapsed" common:VisibilityAnimation.AnimationType="Fade" />
 
         <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.ColumnSpan="2" HorizontalAlignment="Right">
             <Button Content="RAZ" Name="btnResetAll" Grid.Row="3"  Height="30" Width="200" Margin="10" Click="BtnResetAll_Click"/>

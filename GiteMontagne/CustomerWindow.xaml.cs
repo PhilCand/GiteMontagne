@@ -33,7 +33,7 @@ namespace GiteMontagne
             //listViewCustomers.ItemsSource = DAL.GetCustomers();
             listViewCustomers.ItemsSource = DAL.SearchCustomers(txtSearchCustomer.Text);
         }
-               
+
         private void BtnSelectCustomer_Click(object sender, RoutedEventArgs e)
         {
             if (listViewCustomers.SelectedIndex >= 0)
@@ -45,8 +45,8 @@ namespace GiteMontagne
 
         public Customer ShowDialogWithResult()
         {
-        ShowDialog();
-        return SelectedCustomer;
+            ShowDialog();
+            return SelectedCustomer;
         }
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
@@ -55,19 +55,17 @@ namespace GiteMontagne
         }
 
         private void BtnDeleteCustomer_Click(object sender, RoutedEventArgs e)
-        { 
+        {
             int delCustomerID = (listViewCustomers.SelectedItem as Customer).Id;
             DAL.DeleteCustomer(delCustomerID);
-                //listViewCustomers.ItemsSource = DAL.GetCustomers();
-                listViewCustomers.ItemsSource = DAL.SearchCustomers(txtSearchCustomer.Text);
+            listViewCustomers.ItemsSource = DAL.SearchCustomers(txtSearchCustomer.Text);
         }
 
         private void BtnEditCustomer_Click(object sender, RoutedEventArgs e)
         {
-                EditCustomerWindow ecw = new EditCustomerWindow(listViewCustomers.SelectedItem as Customer);
-                ecw.ShowDialog();
-                //listViewCustomers.ItemsSource = DAL.GetCustomers();
-                listViewCustomers.ItemsSource = DAL.SearchCustomers(txtSearchCustomer.Text);            
+            EditCustomerWindow ecw = new EditCustomerWindow(listViewCustomers.SelectedItem as Customer);
+            ecw.ShowDialog();
+            listViewCustomers.ItemsSource = DAL.SearchCustomers(txtSearchCustomer.Text);
         }
 
         private void BtnCreateCustomer_Click(object sender, RoutedEventArgs e)

@@ -41,7 +41,8 @@ namespace GiteMontagne
             RAZ();
             dpArrivalDate.DisplayDateStart = DateTime.Now;
             dpDepartureDate.DisplayDateStart = DateTime.Now.AddDays(1);
-
+            dpArrivalDate.Text = DateTime.Now.ToString();
+            dpDepartureDate.Text = DateTime.Now.AddDays(1).ToString();
         }
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
@@ -140,13 +141,13 @@ namespace GiteMontagne
 
                 DAL.CreateReservation(newReservation);
 
-                labelConfirm.Visibility = System.Windows.Visibility.Visible;
+                labelConfirm.Visibility = Visibility.Visible;
                 dispatcherTimer.Start();
 
                 RAZ();
             }
 
-            catch (System.Data.SqlClient.SqlException ex)
+            catch (System.Data.SqlClient.SqlException)
             {
                 MessageBox.Show("Le client sélectionné n'existe pas dans la base de donnée", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -166,17 +167,19 @@ namespace GiteMontagne
             txtbFirstNameCustomer.Clear();
             txtbPhoneCustomer.Clear();
             txtbEmailCustomer.Clear();
-            dpArrivalDate.SelectedDate = null;
-            dpDepartureDate.SelectedDate = null;
+            dpArrivalDate.SelectedDate = DateTime.Now;
+            dpDepartureDate.SelectedDate = DateTime.Now.AddDays(1);
             txtbComment.Clear();
             listViewSelectedBeds.Items.Clear();
             DAL.MakeAllBedAvaible();
-            listViewAvaibleBeds.ItemsSource = DAL.GetBeds();
             txtbTotalPrice.Text = "0";
             txtbNameCustomer.Visibility = Visibility.Hidden;
             txtbFirstNameCustomer.Visibility = Visibility.Hidden;
             txtbPhoneCustomer.Visibility = Visibility.Hidden;
             txtbEmailCustomer.Visibility = Visibility.Hidden;
+            dpArrivalDate.Text = DateTime.Now.ToString();
+            dpDepartureDate.Text = DateTime.Now.AddDays(1).ToString();
+            GetAvaibleBeds();
         }
 
         private void DpArrivalDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
@@ -234,7 +237,7 @@ namespace GiteMontagne
         private void GetAvaibleBeds()
         {
             DateTime bookingFromDate = DateTime.Now;
-            DateTime bookingToDate = DateTime.Now;
+            DateTime bookingToDate = DateTime.Now.AddDays(1);
 
             if (dpArrivalDate.SelectedDate != null)
             {
@@ -244,6 +247,11 @@ namespace GiteMontagne
             if (dpDepartureDate.SelectedDate != null)
             {
                 bookingToDate = Convert.ToDateTime(dpDepartureDate.Text);
+            }
+
+            foreach (Bed bed in listViewSelectedBeds.Items)
+            {
+                DAL.MakeBedUnavaible(bed);
             }
 
             listViewAvaibleBeds.ItemsSource = DAL.GetAvaibleBeds(bookingFromDate, bookingToDate);
@@ -298,6 +306,15 @@ namespace GiteMontagne
 
             //Disable the timer
             dispatcherTimer.IsEnabled = false;
+        }
+
+        private void DpDepartureDate_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (dpDepartureDate.SelectedDate <= dpArrivalDate.SelectedDate)
+            {
+                DateTime today = (DateTime)dpArrivalDate.SelectedDate;
+                dpDepartureDate.SelectedDate = today.AddDays(1);
+            }
         }
     }
 }

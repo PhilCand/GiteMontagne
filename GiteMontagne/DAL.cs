@@ -280,11 +280,12 @@ namespace GiteMontagne
             string startDateStr = startDate.ToString("MM/dd/yyyy");
             string endDateStr = endDate.ToString("MM/dd/yyyy");
 
-            string sqlQuery = $"select r.id as resaID, r.arrivalDate, r.departureDate,r.comment, c.name, r.price " +
+            string sqlQuery = $"select r.id as resaID, r.arrivalDate, r.departureDate,r.comment, c.name, r.price, r.numberOFBeds " +
                               $"from Reservations r join Customers c on c.id = r.customer_id " +
                               $"where name like '%{name}%' " +
                               $"and arrivalDate >= '{startDateStr}' " +
                               $"and departureDate <= '{endDateStr}';";
+
             SqlCommand command = new SqlCommand(sqlQuery, connection);
             SqlDataReader dataReader = command.ExecuteReader();
 
@@ -299,6 +300,41 @@ namespace GiteMontagne
                     newReservation.DepartureDate = Convert.ToDateTime(dataReader["departureDate"]);
                     newReservation.Comment = dataReader["comment"].ToString();
                     newReservation.Price = Convert.ToDouble(dataReader["price"]);
+                    newReservation.NumberOfBeds = Convert.ToInt32(dataReader["numberOfBeds"]);
+                    reservations.Add(newReservation);
+                }
+            }
+            dataReader.Close();
+            command.Dispose();
+
+            return reservations;
+        }
+
+        public static List<Reservation> GetSearchedReservationsInDate(DateTime inDate)
+        {
+            List<Reservation> reservations = new List<Reservation>();
+
+            string inDateStr = inDate.ToString("MM/dd/yyyy");
+
+            string sqlQuery = $"select r.id as resaID, r.arrivalDate, r.departureDate,r.comment, c.name, r.price, r.numberOFBeds " +
+                              $"from Reservations r join Customers c on c.id = r.customer_id " +
+                              $"where '{inDateStr}' BETWEEN arrivalDate AND departureDate;";
+
+            SqlCommand command = new SqlCommand(sqlQuery, connection);
+            SqlDataReader dataReader = command.ExecuteReader();
+
+            if (dataReader.HasRows)
+            {
+                while (dataReader.Read())
+                {
+                    Reservation newReservation = new Reservation();
+                    newReservation.Id = Convert.ToInt32(dataReader["resaID"]);
+                    newReservation.CustomerName = dataReader["name"].ToString();
+                    newReservation.ArrivalDate = Convert.ToDateTime(dataReader["arrivalDate"]);
+                    newReservation.DepartureDate = Convert.ToDateTime(dataReader["departureDate"]);
+                    newReservation.Comment = dataReader["comment"].ToString();
+                    newReservation.Price = Convert.ToDouble(dataReader["price"]);
+                    newReservation.NumberOfBeds = Convert.ToInt32(dataReader["numberOfBeds"]);
                     reservations.Add(newReservation);
                 }
             }

@@ -63,23 +63,18 @@ namespace GiteMontagne
             this.Close();
         }
 
-        //private void BtnResetAll_Click(object sender, RoutedEventArgs e)
-        //{
-        //    RAZ();
-        //}
-
         private void BtnSelectCustomer_Click(object sender, RoutedEventArgs e)
         {
             CustomerWindow cw = new CustomerWindow();
-            SelectedCustomer = cw.ShowDialogWithResult();
-            if (SelectedCustomer != null)
+            Customer SelectCustomer = cw.ShowDialogWithResult();
+            if (SelectCustomer != null)
             {
+                SelectedCustomer = SelectCustomer;
                 txtbNameCustomer.Text = SelectedCustomer.Name;
                 txtbFirstNameCustomer.Text = SelectedCustomer.FirstName;
                 txtbPhoneCustomer.Text = SelectedCustomer.Phone;
                 txtbEmailCustomer.Text = SelectedCustomer.Email;
             }
-
         }
 
         private void BtnAddBed_Click(object sender, RoutedEventArgs e)
@@ -153,19 +148,12 @@ namespace GiteMontagne
                 DAL.UpdateReservation(newReservation);
                 RAZ();
         }
-            catch (System.Data.SqlClient.SqlException ex)
+            catch (System.Data.SqlClient.SqlException)
             {
                 MessageBox.Show("Le client sélectionné n'existe pas dans la base de donnée", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
     }
-
-        //private void BtnShowResevations_Click(object sender, RoutedEventArgs e)
-        //{
-        //    ReservationsWindow rw = new ReservationsWindow();
-        //    rw.ShowDialog();
-
-        //}
 
         private void RAZ()
         {
@@ -249,22 +237,6 @@ namespace GiteMontagne
             GetTotalPrice();
         }
 
-        //private void BtnEditDates_Click(object sender, RoutedEventArgs e)
-        //{
-        //    dpArrivalDate.IsEnabled = true;
-        //    dpDepartureDate.IsEnabled = true;
-
-        //    foreach (Bed bed in listViewSelectedBeds.Items)
-        //    {
-        //        DAL.MakeBedAvaible(bed);
-        //    }
-
-        //    listViewSelectedBeds.Items.Clear();
-        //    GetAvaibleBedsWithEdited();
-        //    btnEditDates.IsEnabled = false;
-        //    GetTotalPrice();
-        //}
-
         private void GetAvaibleBeds()
         {
             DateTime bookingFromDate = DateTime.Now;
@@ -280,6 +252,11 @@ namespace GiteMontagne
                 bookingToDate = Convert.ToDateTime(dpDepartureDate.Text);
             }
 
+            foreach (Bed bed in listViewSelectedBeds.Items)
+            {
+                DAL.MakeBedUnavaible(bed);
+            }
+                        
             listViewAvaibleBeds.ItemsSource = DAL.GetAvaibleBeds(bookingFromDate, bookingToDate);
         }
 
@@ -296,6 +273,11 @@ namespace GiteMontagne
             if (dpDepartureDate.SelectedDate != null)
             {
                 bookingToDate = Convert.ToDateTime(dpDepartureDate.Text);
+            }
+
+            foreach (Bed bed in listViewSelectedBeds.Items)
+            {
+                DAL.MakeBedUnavaible(bed);
             }
 
             listViewAvaibleBeds.ItemsSource = DAL.GetAvaibleBeds(bookingFromDate, bookingToDate, EditedReservation.Id);
@@ -334,6 +316,20 @@ namespace GiteMontagne
         private void DpDepartureDate_CalendarOpened(object sender, RoutedEventArgs e)
         {
             dpDepartureDate.DisplayDateStart = dpArrivalDate.SelectedDate.Value.AddDays(1);
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            DAL.MakeAllBedAvaible();
+        }
+
+        private void DpDepartureDate_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (dpDepartureDate.SelectedDate <= dpArrivalDate.SelectedDate)
+            {
+                DateTime today = (DateTime)dpArrivalDate.SelectedDate;
+                dpDepartureDate.SelectedDate = today.AddDays(1);
+            }
         }
     }
 }

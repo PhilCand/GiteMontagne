@@ -38,6 +38,11 @@ namespace GiteMontagne
                 DAL.DeleteReservation((listViewReservations.SelectedItem as Reservation).Id);
                 listViewReservations.ItemsSource = DAL.GetReservations();
             }
+
+            if (listViewReservations.Items.Count > 0)
+            {
+                listViewReservations.SelectedIndex = 0;
+            }
         }
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
@@ -47,45 +52,12 @@ namespace GiteMontagne
 
         private void BtnEditer_Click(object sender, RoutedEventArgs e)
         {
-            if (listViewReservations.SelectedIndex > 0)
+            if (listViewReservations.SelectedIndex >= 0)
             {
                 EditReservationWindow erw = new EditReservationWindow((listViewReservations.SelectedItem as Reservation).Id);
                 erw.ShowDialog();
                 listViewReservations.ItemsSource = DAL.GetReservations();
             }            
-        }
-
-        private void TxtbSearchName_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            SearchReservations();
-        }
-
-        private void DpSearchStart_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
-        {
-            SearchReservations();
-        }
-
-        private void DpSearchEnd_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
-        {
-            SearchReservations();
-        }
-
-        private void SearchReservations()
-        {
-            DateTime start = DateTime.Parse("01/01/2000");
-            DateTime end = DateTime.Parse("31/12/3000");
-
-            if (dpSearchStart.SelectedDate != null)
-            {
-                start = Convert.ToDateTime(dpSearchStart.Text);
-            }
-
-            if (dpSearchEnd.SelectedDate != null)
-            {
-                end = Convert.ToDateTime(dpSearchEnd.Text);
-            }
-
-            listViewReservations.ItemsSource = DAL.GetSearchedReservations(txtbSearchName.Text, start, end);
         }
 
         private void ListViewReservations_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -96,8 +68,7 @@ namespace GiteMontagne
             erw.ShowDialog();
             listViewReservations.ItemsSource = DAL.GetReservations();
         }
-
-
+        
         //Sorting listview
 
         GridViewColumnHeader _lastHeaderClicked = null;
@@ -168,5 +139,67 @@ namespace GiteMontagne
             dataView.Refresh();
         }
 
+        //Searching reservations
+
+        private void SearchReservations()
+        {
+            DateTime startDate = DateTime.Parse("01/01/2000");
+            DateTime endDate = DateTime.Parse("31/12/3000");
+
+            if (dpSearchStart.SelectedDate != null)
+            {
+                startDate = Convert.ToDateTime(dpSearchStart.SelectedDate);
+            }
+
+            if (dpSearchEnd.SelectedDate != null)
+            {
+                endDate = Convert.ToDateTime(dpSearchEnd.SelectedDate);
+            }
+
+            dpSearchIn.Text = "";
+            listViewReservations.ItemsSource = DAL.GetSearchedReservations(txtbSearchName.Text, startDate, endDate);
+
+        }
+
+        private void SearchReservationsInDate()
+        {
+            if (dpSearchIn.SelectedDate != null)
+            {
+                dpSearchStart.Text = "";
+                dpSearchEnd.Text = "";
+                txtbSearchName.Text = "";
+                DateTime inDate = Convert.ToDateTime(dpSearchIn.SelectedDate);
+                listViewReservations.ItemsSource = DAL.GetSearchedReservationsInDate(inDate);
+
+            }
+
+        }
+
+        private void TxtbSearchName_KeyUp(object sender, KeyEventArgs e)
+        {
+            SearchReservations();
+        }
+
+        private void DpSearchEnd_LostFocus(object sender, RoutedEventArgs e)
+        {
+            SearchReservations();
+        }
+
+        private void DpSearchStart_LostFocus(object sender, RoutedEventArgs e)
+        {
+            SearchReservations();
+        }
+
+        private void DpSearchIn_LostFocus(object sender, RoutedEventArgs e)
+        {
+            SearchReservationsInDate();
+        }
+
+        private void DpSearchEnd_CalendarOpened(object sender, RoutedEventArgs e)
+        {
+            dpSearchEnd.DisplayDateStart = dpSearchStart.SelectedDate.Value.AddDays(1);
+        }
+
+        
     }
 }
