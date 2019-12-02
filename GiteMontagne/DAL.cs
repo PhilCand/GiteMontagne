@@ -10,8 +10,16 @@ namespace GiteMontagne
 {
     class DAL
     {
-        private static SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["MyConnectionTestString"].ConnectionString);
-        //private static SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["MyConnectionProdString"].ConnectionString);
+
+        /* - - - chaine de connexion TEST, a changer dans app.config avec votre chaine de connexion locale : - - - */
+
+        //private static SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["MyConnectionTestString"].ConnectionString);
+
+       
+        /* - - - chaine de connexion PROD, pour lancer par le .exe : - - - */
+
+        private static SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["MyConnectionProdString"].ConnectionString);
+
 
         static DAL()
         {
@@ -445,7 +453,6 @@ namespace GiteMontagne
             command.ExecuteNonQuery();
             command.Dispose();
         }
-
 
         #endregion
 

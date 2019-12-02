@@ -21,6 +21,7 @@ namespace GiteMontagne
     {
         private Customer _selectedCustomer;
         private Reservation _editedReservation;
+        
 
         public Customer SelectedCustomer { get => _selectedCustomer; set => _selectedCustomer = value; }
         internal Reservation EditedReservation { get => _editedReservation; set => _editedReservation = value; }
@@ -33,15 +34,19 @@ namespace GiteMontagne
         public EditReservationWindow(int editedReservationID)
         {
             InitializeComponent();
+            labelReservationNumber.Content = $"Edition de la réservation n° {editedReservationID}";
             EditedReservation = DAL.GetUpdatedReservation(editedReservationID);
             SelectedCustomer = EditedReservation.Customer;
             txtbNameCustomer.Text = SelectedCustomer.Name;
             txtbFirstNameCustomer.Text = SelectedCustomer.FirstName;
             txtbEmailCustomer.Text = SelectedCustomer.Email;
             txtbPhoneCustomer.Text = SelectedCustomer.Phone;
+            txtbComment.Text = EditedReservation.Comment;
             dpArrivalDate.SelectedDate = EditedReservation.ArrivalDate;
             dpDepartureDate.SelectedDate = EditedReservation.DepartureDate;
             GetAvaibleBeds();
+            dpArrivalDate.DisplayDateStart = DateTime.Now;
+            dpDepartureDate.DisplayDateStart = DateTime.Now.AddDays(1);
 
             foreach (Bed bed in EditedReservation.RevervedBeds)
             {
@@ -56,6 +61,7 @@ namespace GiteMontagne
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {            
             RAZ();
+
         }
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
@@ -170,51 +176,6 @@ namespace GiteMontagne
             GetAvaibleBeds();
         }
 
-        private void DpArrivalDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
-        {
-            DateTime bookingFromDate = DateTime.Now;
-            DateTime bookingToDate = DateTime.Now;
-
-            if (dpArrivalDate.SelectedDate != null)
-            {
-                bookingFromDate = Convert.ToDateTime(dpArrivalDate.Text);
-            }
-
-            if (dpDepartureDate.SelectedDate != null)
-            {
-                bookingToDate = Convert.ToDateTime(dpDepartureDate.Text);
-
-            }
-
-            listViewSelectedBeds.Items.Clear();
-            DAL.MakeAllBedAvaible();
-            GetAvaibleBedsWithEdited();
-            GetNumberOfNights();
-            GetTotalPrice();
-        }
-
-        private void DpDepartureDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
-        {
-            DateTime bookingFromDate = DateTime.Now;
-            DateTime bookingToDate = DateTime.Now;
-
-            if (dpArrivalDate.SelectedDate != null)
-            {
-                bookingFromDate = Convert.ToDateTime(dpArrivalDate.Text);
-            }
-
-            if (dpDepartureDate.SelectedDate != null)
-            {
-                bookingToDate = Convert.ToDateTime(dpDepartureDate.Text);
-
-            }
-
-            listViewSelectedBeds.Items.Clear();
-            DAL.MakeAllBedAvaible();
-            GetAvaibleBedsWithEdited();
-            GetNumberOfNights();
-            GetTotalPrice();
-        }
 
         private void ListViewAvaibleBeds_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
@@ -331,5 +292,59 @@ namespace GiteMontagne
                 dpDepartureDate.SelectedDate = today.AddDays(1);
             }
         }
+
+        private void DpArrivalDate_CalendarClosed(object sender, RoutedEventArgs e)
+        {
+            DateTime bookingFromDate = DateTime.Now;
+            DateTime bookingToDate = DateTime.Now;
+
+            if (dpArrivalDate.SelectedDate != null)
+            {
+                bookingFromDate = Convert.ToDateTime(dpArrivalDate.Text);
+            }
+
+            if (dpDepartureDate.SelectedDate != null)
+            {
+                bookingToDate = Convert.ToDateTime(dpDepartureDate.Text);
+            }
+
+            DateTime departureSelection = (DateTime)dpDepartureDate.SelectedDate;
+
+            if (dpArrivalDate.SelectedDate >= departureSelection.Date)
+            {
+                DateTime start = (DateTime)dpArrivalDate.SelectedDate;
+                dpDepartureDate.SelectedDate = start.AddDays(1);
+            }
+
+            listViewSelectedBeds.Items.Clear();
+            DAL.MakeAllBedAvaible();
+            GetAvaibleBedsWithEdited();
+            GetNumberOfNights();
+            GetTotalPrice();
+        }
+
+        private void DpDepartureDate_CalendarClosed(object sender, RoutedEventArgs e)
+        {
+            DateTime bookingFromDate = DateTime.Now;
+            DateTime bookingToDate = DateTime.Now;
+
+            if (dpArrivalDate.SelectedDate != null)
+            {
+                bookingFromDate = Convert.ToDateTime(dpArrivalDate.Text);
+            }
+
+            if (dpDepartureDate.SelectedDate != null)
+            {
+                bookingToDate = Convert.ToDateTime(dpDepartureDate.Text);
+
+            }
+
+            listViewSelectedBeds.Items.Clear();
+            DAL.MakeAllBedAvaible();
+            GetAvaibleBedsWithEdited();
+            GetNumberOfNights();
+            GetTotalPrice();
+        }
+
     }
 }
